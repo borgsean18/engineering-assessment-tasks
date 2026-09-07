@@ -69,6 +69,7 @@ versions. No separate `nvm` or global Yarn install is required.
 
 ```bash
 # 1. Start API + Postgres (seeded deterministically) on http://localhost:8000
+#    Source is bind-mounted; uvicorn --reload restarts on API code changes.
 docker compose -f infra/docker-compose.yml up --build
 
 # 2. Install JS deps and start the Angular app on http://localhost:4200

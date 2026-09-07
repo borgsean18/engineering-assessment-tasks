@@ -1,4 +1,4 @@
-# Brings up the API + Postgres. Run the Angular app separately with `yarn nx serve hub`.
+# Brings up the API + Postgres with hot reload. Run the Angular app separately with `yarn nx serve hub`.
 # From the repo root (base-app/):  docker compose -f infra/docker-compose.yml up --build
 services:
   postgres:
@@ -23,6 +23,20 @@ services:
     environment:
       HUB_DATABASE_URL: postgresql+psycopg2://hub:hub@postgres:5432/hub
       HUB_SEED_ON_STARTUP: 'true'
+    volumes:
+      - ../apps/api:/srv/apps/api
+    command:
+      [
+        'uvicorn',
+        'app.main:app',
+        '--host',
+        '0.0.0.0',
+        '--port',
+        '8000',
+        '--reload',
+        '--reload-dir',
+        '/srv/apps/api/app',
+      ]
     ports:
       - '8000:8000'
     depends_on:
