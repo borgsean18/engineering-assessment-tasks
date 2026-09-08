@@ -76,7 +76,7 @@ When you add or change an endpoint: update the FastAPI code -> run `yarn api-cli
 Prerequisites: [Volta](https://volta.sh) (pins Node 22 + Yarn 4 — see README), Docker, [uv](https://docs.astral.sh/uv/) (only if running the API outside Docker).
 
 ```bash
-docker compose -f infra/docker-compose.yml up --build   # api:8000; postgres on host :5433
+docker compose -f infra/docker-compose.yml up --build --watch   # api:8000; postgres on host :5433
 yarn install
 yarn api-client:generate                                 # refresh typed client types
 yarn nx serve hub                                         # app on http://localhost:4200
