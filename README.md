@@ -15,7 +15,7 @@ rubrics, interviewer scripts, or calibration notes.
 
 ```bash
 cd base-app
-docker compose -f infra/docker-compose.yml up --build   # API on :8000
+docker compose -f infra/docker-compose.yml up --build --watch   # API on :8000
 yarn install && yarn nx serve hub                        # UI on :4200
 ```
 
