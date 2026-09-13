@@ -82,7 +82,7 @@ def create_change_order(
         id=str(uuid.uuid4()),
         project_id=project.id,
         work_package_id=work_package_id,
-        referenc=payload.reference,
+        reference=payload.reference,
         title=payload.title,
         status=payload.status,
         cost_delta=payload.cost_delta,
@@ -91,5 +91,5 @@ def create_change_order(
     )
     db.add(change_order)
     db.commit()
-    db.refresh()
+    db.refresh(change_order)
     return change_order
