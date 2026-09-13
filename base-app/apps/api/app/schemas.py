@@ -93,7 +93,7 @@ class ChangeOrderCreate(CamelModel):
     schedule_delta_days: int = Field(gt=0)
     status: CreateChangeOrderStatus = CreateChangeOrderStatus.DRAFT
     raised_date: date | None = None
-    work_package_code: str | None = None
+    work_package_code: str = Field(min_length=1)
 
 
 class PaginatedResponse(CamelModel, Generic[T]):
