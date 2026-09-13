@@ -2,7 +2,7 @@ import uuid
 from datetime import date
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Query, status, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -32,6 +32,7 @@ def list_change_orders(
         stmt = stmt.where(ChangeOrder.status == status)
     return list(db.scalars(stmt.order_by(ChangeOrder.raised_date)))
 
+
 @router.post(
     "/{project_id}/change-orders",
     response_model=ChangeOrderSchema,
@@ -60,10 +61,10 @@ def create_change_order(
     if dupplicate is not None:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail=f"{payload.reference} already exists on this project."
+            detail=f"{payload.reference} already exists on this project.",
         )
 
-    work_package_id:str | None = None
+    work_package_id: str | None = None
     if payload.work_package_code is not None:
         work_package_id = db.scalar(
             select(WorkPackage.id).where(
@@ -74,13 +75,11 @@ def create_change_order(
         if work_package_id is None:
             raise HTTPException(
                 status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
-                detail=(
-                    f"{payload.work_package_code} does not belong to this project"
-                )
+                detail=(f"{payload.work_package_code} does not belong to this project"),
             )
 
     change_order = ChangeOrder(
-        id = str(uuid.uuid4()),
+        id=str(uuid.uuid4()),
         project_id=project.id,
         work_package_id=work_package_id,
         referenc=payload.reference,

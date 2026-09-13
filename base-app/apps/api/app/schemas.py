@@ -86,7 +86,7 @@ class ChangeOrder(CamelModel):
 
 class ChangeOrderCreate(CamelModel):
     """Request body for creating a new change order."""
-
+    model_config = ConfigDict(extra="forbid")
     reference: str = Field(min_length=1)
     title: str = Field(min_length=1)
     cost_delta: float = Field(gt=0)
@@ -94,6 +94,7 @@ class ChangeOrderCreate(CamelModel):
     status: CreateChangeOrderStatus = CreateChangeOrderStatus.DRAFT
     raised_date: date | None = None
     work_package_code: str | None = None
+
 
 class PaginatedResponse(CamelModel, Generic[T]):
     """Paginated list wrapper with total count and paging metadata."""
