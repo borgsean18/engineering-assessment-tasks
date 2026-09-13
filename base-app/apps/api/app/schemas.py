@@ -1,12 +1,13 @@
 from datetime import date
 from typing import Generic, TypeVar
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
 from app.enums import (
     BenchmarkPosition,
     ChangeOrderStatus,
+    CreateChangeOrderStatus,
     ProjectStatus,
     RagStatus,
 )
@@ -82,6 +83,17 @@ class ChangeOrder(CamelModel):
     schedule_delta_days: int
     raised_date: date
 
+
+class ChangeOrderCreate(CamelModel):
+    """Request body for creating a new change order."""
+
+    reference: str = Field(min_length=1)
+    title: str = Field(min_length=1)
+    cost_delta: float = Field(gt=0)
+    schedule_delta_days: int = Field(gt=0)
+    status: CreateChangeOrderStatus = CreateChangeOrderStatus.DRAFT
+    raised_date: date | None = None
+    work_package_code: str | None = None
 
 class PaginatedResponse(CamelModel, Generic[T]):
     """Paginated list wrapper with total count and paging metadata."""
